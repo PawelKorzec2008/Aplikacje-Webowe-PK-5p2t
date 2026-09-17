@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edytuj</title>
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+    <script src="bootstrap/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container-lg">
+        <h1>Zmień przedmiot</h1>
+        <div class="container">
+            <form action="/shoppinglist/<%=listId%>/?_method=patch" method="post">
+                <label for="name" class="form-label">Nazwa</label>
+                <input class="form-control" type="text" name="name" id="name" required>
+                <label for="quantity" id="quantity" class="form-label">Ilość</label>
+                <input class="form-control" type="number" name="quantity" id="quantity" required>
+                <input class="btn btn-primary" type="submit" value="Zmień">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

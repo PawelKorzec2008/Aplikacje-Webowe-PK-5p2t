@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista zakupów</title>
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+    <script src="bootstrap/bootstrap.min.js"></script>
+</head>
+<body>
+    <!--
+        <% %> - pozwala na uruchomienie JSa
+        <%= %> - ewaluuje JSa i wpisuje wynik
+        <%- %> - wstawia "surowy" kod, np. include()
+    -->
+    <div class="container-lg">
+        <h1 class="h1">Lista zakupów</h1>
+        <div class="container">
+            <ul class="list-group">
+                <% shopping_list.forEach(item => { %>
+                    <li class="list-group-item"><%=item.name %>: <%=item.quantity %>
+                        <form action='/shoppinglist/<%=item.id%>?_method=delete' method="post">
+                            <a href='/shoppinglist/<%=item.id%>/edit' target="_blank"><input type="button" class="btn btn-primary btn-sm" value="Edytuj"></a>
+                            <input type="submit" class="btn btn-danger btn-sm" value="Usuń">
+                        </form>
+                    </li>
+                <% }) %>
+            </ul>
+        </div>
+        <h1>Dodaj przedmiot</h1>
+        <div class="container">
+            <form action="/shoppinglist" method="post">
+                <label for="name" class="form-label">Nazwa</label>
+                <input class="form-control" type="text" name="name" id="name" required>
+                <label for="quantity" id="quantity" class="form-label">Ilość</label>
+                <input class="form-control" type="number" name="quantity" id="quantity" required>
+                <input class="btn btn-primary" type="submit" value="Dodaj">
+            </form>
+        </div>
+    </div>
+</body>
+</html>
