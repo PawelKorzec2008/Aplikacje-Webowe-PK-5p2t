@@ -13,6 +13,7 @@ function Photocard({title,description,category,image,alt}){
                 <p className="card-text text-body-secondary">
                     {description}
                 </p>
+                <button type="button" className="btn btn-outline-primary mt-auto" data-bs-toggle="modal" data-bs-target={`#zdjecie${id}`}>Powiększ</button>
             </div>
         </div>
     )
