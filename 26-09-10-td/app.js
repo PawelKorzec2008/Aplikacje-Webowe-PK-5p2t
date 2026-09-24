@@ -4,11 +4,22 @@ const app = express()
 
 const PORT = 3000
 
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+const path = require('path')
+app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname,'views'))
+app.use(express.static(path.join(__dirname, 'public')))
+
 const database = {
     model:"Ford",
     year: 2027,
     color: "Green"
 }
+
+const methodOverride = require("method-override")
+app.use(methodOverride("_method"))
 
 const list = ['Banana','Apple','Orange']
 
@@ -45,7 +56,7 @@ app.get("/numbers",(req,res)=>{
     }
 })
 
-shopping_list = [
+let shopping_list = [
     {
         id: 1,
         name: "Apple",
@@ -59,7 +70,7 @@ shopping_list = [
 ]
 
 app.get("/shoppinglist",(req,res)=>{
-    res.send(shopping_list)
+    res.render('shopping', {shopping_list})
 })
 
 app.get("/shoppinglist/:id",(req,res)=>{
@@ -72,15 +83,48 @@ app.get("/shoppinglist/:id",(req,res)=>{
     res.send({})
 })
 
+app.get("/shoppinglist/:id/edit",(req,res)=>{
+    const listId = req.params.id;
+    res.render('editForm', {listId})
+})
+
+next_id = shopping_list.length+1
+
 app.post("/shoppinglist",(req,res)=>{
+    data = req.body
+    //console.log(data)
+
     const obj = {
-        id:3,
-        name: "Orange",
-        quantity: 4
+        id:next_id,
+        name: data.name,
+        quantity: data.quantity
     }
     shopping_list.push(obj)
+    next_id++
+    res.redirect("/shoppinglist")
+})
 
-    res.redirect("/shopping")
+app.delete("/shoppinglist/:id",(req,res)=>{
+    const listId = req.params.id;
+    shopping_list = shopping_list.filter(item => item.id != listId)
+    res.redirect("/shoppinglist")
+})
+
+//UPDATE
+app.patch("/shoppinglist/:id",(req,res)=>{
+    const listId = req.params.id;
+    data = req.body;
+    const updatedItem = shopping_list.find(item => item.id == listId)
+    if(updatedItem == undefined){
+        return res.send("Nie znaleziono")
+    }
+    updatedItem.name = data.name
+    updatedItem.quantity = parseInt(data.quantity)
+    res.redirect("/shoppinglist")
+})
+
+shopping_list.forEach(item =>{
+    console.log(item);
 })
 
 app.listen(PORT,()=>{
