@@ -1,0 +1,12 @@
+.dark{
+    background-color: black;
+}
+.dark input {
+    background-color:darkgray;
+}
+.light{
+    background-color: white;
+}
+.light input{
+    background-color: lightgrey;
+}
