@@ -1,4 +1,7 @@
-function PhotoModal(){
+function PhotoModal({id, title, description, imageLarge, alt }){
+    const modalId = `zdjecie${id}`
+    const labelId = `${modalId}Label`
+
     return(
         <div className="modal fade" id="{modalId}" tabIndex="-1" aria-labelledby={labelId} aria-hidden="true">
             <div className="modal-dialog modal-lg modal-dialog-centered">
