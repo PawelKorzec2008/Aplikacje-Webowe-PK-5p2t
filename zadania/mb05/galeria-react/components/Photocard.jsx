@@ -23,7 +23,7 @@ function Photocard({id,title,description,category,image,alt,favorite,onUsun,onPr
                     </button>
                 </div>
                 <p>
-                    <span className="{'badge text-bg-${KOLOR_KATEGORII[category]}'}">{NAZWA_KATEGORII[category]}</span>
+                    <span className={`badge text-bg-${KOLOR_KATEGORII[category]}`}>{NAZWA_KATEGORII[category]}</span>
                 </p>
                 <p className="card-text text-body-secondary">
                     {description}
