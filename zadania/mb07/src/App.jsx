@@ -43,6 +43,8 @@ function App() {
       <button type='button' className='btn btn-outline-secondary text-nowrap' onClick={()=>setRosnaco(!rosnaco)}>Sortuj {rosnaco ? 'Z->A' : 'A->Z'}</button>
     </div>
 
+    <p className='text-body-secondary'>Znaleziono {widoczne.length} z {kursy.length} kursów</p>
+
     <ol>
       {widoczne.map((kurs,index)=>(
         <li key={index}>{kurs}</li>
