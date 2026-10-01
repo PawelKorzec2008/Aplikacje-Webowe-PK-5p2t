@@ -17,20 +17,24 @@ function App() {
 
   const widoczne = kursy.map((kurs,index)=>({kurs, numer: index+1})).filter(({kurs})=>kurs.toLowerCase().includes(szukaj.toLowerCase())).sort((a,b)=>rosnaco ? a.kurs.localeCompare(b.kurs) : b.kurs.localeCompare(a.kurs))
 
+  const [status,setStatus] = useState(null)
+
   function handleSubmit(event){
-    event.preventDefault
-  }
+    event.preventDefault()
+  
+    const imienazwisko = imieNazwiskoRef.current.value
+    const numerkursu = Number(numerKursuRef.current.value)
+    const kurs = kursy[numerkursu - 1]
 
-  const imienazwisko = imieNazwiskoRef.current.value
-  const numerkursu = Number(numerKursuRef.current.value)
-  const kurs = kursy[numerkursu - 1]
+    console.log(imienazwisko)
 
-  console.log(imienazwisko)
-
-  if(kurs!== undefined){
-    console.log(kurs)
-  }else{
-    console.log('Nieprawidłowy numer kursu')
+    if(kurs!== undefined){
+      console.log(kurs)
+      setStatus({typ:'sukces', tresc:`${imienazwisko} zapisany(-a) na kurs ${kurs}`})
+    }else{
+      console.log('Nieprawidłowy numer kursu')
+      setStatus({typ: 'blad', tresc: 'Nieprawidłowy numer kursu'})
+    }
   }
 
   return (
@@ -50,6 +54,12 @@ function App() {
         <li key={index}>{kurs}</li>
       ))}
     </ol>
+
+    {status &&(
+      <div className={`alert alert-${status.typ === 'sukces' ? 'sukces' : 'danger'}`}>
+        {status.tresc}
+      </div>
+    )}
 
     <form onSubmit={handleSubmit}>
       <div className='form-group'>
