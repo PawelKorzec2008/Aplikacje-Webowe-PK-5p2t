@@ -39,7 +39,7 @@ function App() {
 
   return (
   <div className='container py-4' style={{maxWidth: 600}}>
-    <h1 className='h3' mb-4>Zapisy na kursy</h1>
+    <h1 className='h3 mb-4'>Zapisy na kursy</h1>
     <h2 className='h5'>Liczba kursów: {kursy.length}</h2>
 
     <div className='d-flex gap-2 mb-2'>
@@ -50,8 +50,8 @@ function App() {
     <p className='text-body-secondary'>Znaleziono {widoczne.length} z {kursy.length} kursów</p>
 
     <ol>
-      {widoczne.map((kurs,index)=>(
-        <li key={index}>{kurs}</li>
+      {widoczne.map((kurs)=>(
+        <li key={kurs.numer}>{kurs.kurs}</li>
       ))}
     </ol>
 
