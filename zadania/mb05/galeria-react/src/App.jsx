@@ -10,6 +10,9 @@ import FiltersOffcanvas from '../components/FiltersOffcanvas'
 
 function App() {
   const [zdjecia, setZdjecia] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [aktywnaKategoria, setAktywnaKategoria] = useState('wszystkie')
   useEffect(()=>{
     async function pobierzZdjecia() {
       try{
@@ -19,11 +22,12 @@ function App() {
       setZdjecia(dane)
       }catch(err){
         console.log(err.message)
+      }finally{
+        setIsLoading(false)
       }
     }
     pobierzZdjecia()
   },[])
-  const [aktywnaKategoria, setAktywnaKategoria] = useState('wszystkie')
   const widoczne = aktywnaKategoria === 'wszystkie' ? zdjecia : zdjecia.filter(z=>z.category === aktywnaKategoria)
 
   function usunZdjecie(id) {
@@ -37,6 +41,27 @@ function App() {
 
   function przelaczUlubione(id) {
     setZdjecia(zdjecia.map(z => (z.id === id ? { ...z, favorite: !z.favorite } : z)))
+  }
+
+  if(isLoading){
+    return(
+      <div className='text-center mt-5'>
+        <div className='spinner-border text-primary' role="status"/>
+        <p className='mt-2' text-muted>Ładowanie galerii...</p>
+      </div>
+    )
+  }
+
+  if(error){
+    return(
+      <div className='alert alert-danger m-4'>
+        Nie udało się pobrać danych: {error}
+      </div>
+    )
+  }
+
+  if(zdjecia.length === 0){
+    return <div className='alert alert-secondary m-4'>Katalog jest na razie pusty.</div>
   }
 
   return (
