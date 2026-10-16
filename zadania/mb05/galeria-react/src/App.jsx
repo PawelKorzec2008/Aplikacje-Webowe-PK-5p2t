@@ -7,6 +7,7 @@ import Gallery from '../components/Gallery'
 import Footer from '../components/Footer'
 import AddPhotoModal from '../components/AddPhotoModal'
 import FiltersOffcanvas from '../components/FiltersOffcanvas'
+import ZdjecieDnia from '../components/ZdjecieDnia'
 
 function App() {
   const [zdjecia, setZdjecia] = useState([])
@@ -102,6 +103,7 @@ function App() {
         <Footer/>
         <AddPhotoModal onDodaj={dodajZdjecie}/>
         <FiltersOffcanvas aktywna={aktywnaKategoria} onWybierz={setAktywnaKategoria}/>
+        <ZdjecieDnia/>
       </div>
     </>
   )

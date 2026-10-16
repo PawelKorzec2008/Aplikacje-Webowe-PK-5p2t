@@ -6,7 +6,7 @@ function losowaId(){
 
 function ZdjecieDnia(){
     const [id,setId] = useState(losowaId)
-    const [zdjcie, setZdjecie] = useState(null)
+    const [zdjecie, setZdjecie] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState(null)
 
@@ -14,7 +14,7 @@ function ZdjecieDnia(){
         async function pobierz() {
             setIsLoading(true)
             try{
-                const odpowiedz = await fetch('https://picsum.photos/id/${id}/info')
+                const odpowiedz = await fetch(`https://picsum.photos/id/${id}/info`)
                 if(!odpowiedz.ok) throw new Error('Błąd serwera: ' + odpowiedz.status)
                 const dane = await odpowiedz.json()
                 setZdjecie(dane)
@@ -26,7 +26,20 @@ function ZdjecieDnia(){
         }
         pobierz()
     },[id])
-    return <p>Zdjecie dnia - tu dopiero będzie widok</p>
+    return(
+        <div className="container mt-5 mb-5">
+            <h2>Zdjecie dnia</h2>
+            {zdjecie && (
+                <>
+                    <img src={`https://picsum.photos/id/${id}/400/250`} className="img-fluid rounded" alt={zdjecie.autor} />
+                    <p className="text-muted mt-2">Autor: {zdjecie.author}</p>
+                </>
+            )}
+            <button className="btn btn-outline-primary" disabled={isLoading} onClick={()=>setId(losowaId())}>
+                {isLoading ? 'Losuję...' : 'Losuj nowe zdjęcie'}
+            </button>
+        </div>
+    )
 }
 
 export default ZdjecieDnia
