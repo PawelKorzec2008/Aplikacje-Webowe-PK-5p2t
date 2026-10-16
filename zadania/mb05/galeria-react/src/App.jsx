@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 
 import Navbar from '../components/Navbar'
@@ -7,11 +7,28 @@ import Gallery from '../components/Gallery'
 import Footer from '../components/Footer'
 import AddPhotoModal from '../components/AddPhotoModal'
 import FiltersOffcanvas from '../components/FiltersOffcanvas'
-import photos from './data/photos.json'
+import ZdjecieDnia from '../components/ZdjecieDnia'
 
 function App() {
-  const [zdjecia, setZdjecia] = useState(photos)
+  const [zdjecia, setZdjecia] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [aktywnaKategoria, setAktywnaKategoria] = useState('wszystkie')
+  useEffect(()=>{
+    async function pobierzZdjecia() {
+      try{
+        const odpowiedz = await fetch('/photos.json')
+        if(!odpowiedz.ok) throw new Error('Błąd serwera: ' + odpowiedz.status)
+        const dane = await odpowiedz.json()
+      setZdjecia(dane)
+      }catch(err){
+        console.log(err.message)
+      }finally{
+        setIsLoading(false)
+      }
+    }
+    pobierzZdjecia()
+  },[])
   const widoczne = aktywnaKategoria === 'wszystkie' ? zdjecia : zdjecia.filter(z=>z.category === aktywnaKategoria)
 
   function usunZdjecie(id) {
@@ -25,6 +42,27 @@ function App() {
 
   function przelaczUlubione(id) {
     setZdjecia(zdjecia.map(z => (z.id === id ? { ...z, favorite: !z.favorite } : z)))
+  }
+
+  if(isLoading){
+    return(
+      <div className='text-center mt-5'>
+        <div className='spinner-border text-primary' role="status"/>
+        <p className='mt-2' text-muted>Ładowanie galerii...</p>
+      </div>
+    )
+  }
+
+  if(error){
+    return(
+      <div className='alert alert-danger m-4'>
+        Nie udało się pobrać danych: {error}
+      </div>
+    )
+  }
+
+  if(zdjecia.length === 0){
+    return <div className='alert alert-secondary m-4'>Katalog jest na razie pusty.</div>
   }
 
   return (
@@ -65,6 +103,7 @@ function App() {
         <Footer/>
         <AddPhotoModal onDodaj={dodajZdjecie}/>
         <FiltersOffcanvas aktywna={aktywnaKategoria} onWybierz={setAktywnaKategoria}/>
+        <ZdjecieDnia/>
       </div>
     </>
   )
