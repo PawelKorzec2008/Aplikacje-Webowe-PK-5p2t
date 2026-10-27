@@ -7,14 +7,6 @@ const KATEGORIE = [
 function CategoryBar({ aktywna, onWybierz }) {
     return (
         <div id="kategorie" className="d-flex flex-wrap gap-2 mb-4">
-            <button
-                type="button"
-                className={`btn btn-outline-primary${aktywna === 'wszystkie' ? ' active' : ''}`}
-                aria-pressed={aktywna === 'wszystkie'}
-                onClick={() => onWybierz('wszystkie')}
-            >
-                Wszystkie
-            </button>
             {KATEGORIE.map(kategoria => (
                 <button
                     key={kategoria.value}
