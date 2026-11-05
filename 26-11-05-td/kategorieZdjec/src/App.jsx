@@ -34,9 +34,17 @@ function App() {
     odwrocKategorie(kategoria)
     //console.log(kategorie)
 
-    var tymczasowaGaleria = [];
-    tymczasowaGaleria = (zdjecia.filter(zdjecie => kategorie[zdjecie.category]))
-    setPokazywanaGaleria(tymczasowaGaleria)
+    setPokazywanaGaleria(zdjecia.filter(zdjecie => kategorie[zdjecie.category]))
+  }
+
+  function dodajPobranie(id){
+    const tymczasowaGaleria = pokazywanaGaleria.map((zdjecie) => {
+      if(zdjecie.id == id){
+        zdjecie.downloads ++;
+      }
+      return zdjecie
+    })
+    setPokazywanaGaleria(tymczasowaGaleria);
   }
 
   return (
@@ -59,13 +67,19 @@ function App() {
         </div>
       </div>
 
+      <div className='container-fluid'>
+        <div className='row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3'>
       {pokazywanaGaleria.map(zdjecie=>
-          <div className='zdjecie'>
-            <img src={"assets/"+zdjecie.filename} alt={zdjecie.alt} />
-            <h4>{zdjecie.downloads}</h4>
-            <button type="button" className="btn btn-success" onClick={()=>zdjecia[zdjecie.id].downloads+=1}>Pobierz</button>
+          <div className='col' key={zdjecie.id}>
+            <div>
+            <img className='img-fluid zdjecie' src={"src/assets/"+zdjecie.filename} alt={zdjecie.alt}/>
+            <h4>Pobrań: {zdjecie.downloads}</h4>
+            <button type="button" className="btn btn-success" onClick={() => dodajPobranie(zdjecie.id)}>Pobierz</button>
+            </div>
           </div>
       )}
+        </div>
+      </div>
     </>
   )
 }
