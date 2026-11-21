@@ -17,7 +17,6 @@ describe('Gallery', () => {
       </MemoryRouter>
     )
 
-    // każda karta ma dokładnie jeden link „Powiększ” — liczba linków = liczba kart
     expect(screen.getAllByRole('link', { name: 'Powiększ' })).toHaveLength(3)
   })
 
