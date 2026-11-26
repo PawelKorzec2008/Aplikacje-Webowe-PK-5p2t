@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lista zadań</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: system-ui, sans-serif;
+      color: #1f2937;
+      background: #f3f4f6;
+    }
+
+    body {
+      margin: 0;
+      padding: 2rem 1rem;
+    }
+
+    main {
+      max-width: 42rem;
+      margin: 0 auto;
+      padding: 2rem;
+      border-radius: 1rem;
+      background: #fff;
+      box-shadow: 0 0.5rem 1.5rem rgb(15 23 42 / 10%);
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .task-form {
+      margin-bottom: 1.5rem;
+    }
+
+    input,
+    select,
+    button {
+      min-height: 2.5rem;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.5rem;
+      font: inherit;
+    }
+
+    .task-form input {
+      flex: 1 1 14rem;
+    }
+
+    button {
+      border-color: #2563eb;
+      color: #fff;
+      background: #2563eb;
+      cursor: pointer;
+    }
+
+    .delete-button {
+      border-color: #dc2626;
+      background: #dc2626;
+    }
+
+    .task-list {
+      display: grid;
+      gap: 0.75rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .task {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.75rem;
+    }
+
+    .task-content {
+      min-width: 10rem;
+      flex: 1;
+    }
+
+    .task-content p {
+      margin: 0 0 0.25rem;
+      overflow-wrap: anywhere;
+    }
+
+    .task-content small {
+      color: #64748b;
+    }
+
+    .is-completed .task-content p {
+      color: #64748b;
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Lista zadań</h1>
+
+    <form class="task-form" action="/zadania" method="POST">
+      <label for="tresc">Nowe zadanie</label>
+      <input id="tresc" name="tresc" type="text" required>
+      <label for="priorytet">Priorytet</label>
+      <select id="priorytet" name="priorytet">
+        <option value="niski">Niski</option>
+        <option value="normalny" selected>Normalny</option>
+        <option value="wysoki">Wysoki</option>
+      </select>
+      <button type="submit">Dodaj zadanie</button>
+    </form>
+
+    <% if (zadania.length === 0) { %>
+      <p>Brak zadań. Dodaj pierwsze powyżej.</p>
+    <% } else { %>
+      <ul class="task-list">
+        <% zadania.forEach(zadanie => { %>
+          <li class="task <%= zadanie.wykonane === 1 ? 'is-completed' : '' %>">
+            <div class="task-content">
+              <p><%= zadanie.tresc %></p>
+              <small>Priorytet: <%= zadanie.priorytet %></small>
+            </div>
+            <form action="/zadania/<%= zadanie.id %>/zrobione" method="POST">
+              <button type="submit">
+                <%= zadanie.wykonane === 1 ? 'Przywróć' : 'Oznacz jako wykonane' %>
+              </button>
+            </form>
+            <form action="/zadania/<%= zadanie.id %>/usun" method="POST">
+              <button class="delete-button" type="submit">Usuń</button>
+            </form>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </main>
+</body>
+</html>

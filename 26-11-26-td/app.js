@@ -93,7 +93,7 @@ app.post('/zadania/:id/zrobione', (req, res) => {
   res.redirect('/');
 });
 
-app.post('/zadania/:id/delete', (req, res) => {
+app.post(['/zadania/:id/usun', '/zadania/:id/delete'], (req, res) => {
   const id = idFromParams(req.params.id);
   if (id !== null) {
     bazaDb.prepare('DELETE FROM zadania WHERE id = ?').run(id);

@@ -1,8 +1,12 @@
 {
   "name": "26-11-26-td",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
+  "description": "",
+  "license": "ISC",
+  "author": "",
   "type": "module",
+  "main": "app.js",
   "scripts": {
     "dev": "node app.js",
     "start": "node app.js",
