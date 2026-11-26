@@ -1,0 +1,5 @@
+[
+  { "id": "mtb", "name": "MTB (górski)" },
+  { "id": "miejski", "name": "Miejski" },
+  { "id": "gravel", "name": "Gravel" }
+]
